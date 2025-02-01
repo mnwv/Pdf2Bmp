@@ -11,7 +11,7 @@ namespace Pdf2Bmp_cui
     {
         private static Pdf2Bmp instance = new Pdf2Bmp();
 
-        public static Pdf2Bmp Instance { get { return instance; } }
+        internal static Pdf2Bmp Instance { get { return instance; } }
 
         private Pdf2Bmp() { }
 
@@ -23,7 +23,7 @@ namespace Pdf2Bmp_cui
         /// <param name="tgtWidth"></param>
         /// <param name="tgtHeight"></param>
         /// <returns></returns>
-        public string[] ToBmp(string pdfFilePath, double tgtWidth = 1920.0, double tgtHeight = 1080.0)
+        internal string[] ToBmp(string pdfFilePath, double tgtWidth = 1920.0, double tgtHeight = 1080.0)
         {
             var pdfName = Path.GetFileNameWithoutExtension(pdfFilePath);
 
@@ -38,7 +38,6 @@ namespace Pdf2Bmp_cui
             var bmpFolder = System.IO.Path.GetTempPath();
             var bmpFiles = new string[pdfDocument.PageCount];
 
-
             for (uint i = 0; i < pdfDocument.PageCount; i++)
             {
                 var bmpFilename = $"{pdfName}-{i}.bmp";
@@ -51,7 +50,7 @@ namespace Pdf2Bmp_cui
                     var widthRatio = tgtWidth / pdfPage.Size.Width;
                     var heigthRatio = tgtHeight / pdfPage.Size.Height;
                     var ratio = widthRatio > heigthRatio ? heigthRatio : widthRatio;
-                    //Console.WriteLine($"Page:{i} {pdfPage.Size.Width} {pdfPage.Size.Height} Ratio:{ratio}");
+                    Console.WriteLine($"Page:{i} {pdfPage.Size.Width}X{pdfPage.Size.Height} Ratio:{ratio}");
 
                     var options = new PdfPageRenderOptions();
                     options.DestinationWidth = (uint)(pdfPage.Size.Width * ratio);
